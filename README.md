@@ -1,4 +1,4 @@
-# Stock Portfolio Service on Kubernetes (Cloud Computing Assignment #3)
+# Stock Portfolio Service on Kubernetes (Cloud Computing)
 
 This repository contains the final Kubernetes-based implementation of a highly available, robust stock portfolio application. It 
 builds upon previous Docker Compose versions by migrating all services to Kubernetes, leveraging its orchestration, scalability, 
