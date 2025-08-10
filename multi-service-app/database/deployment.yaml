@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: multi-service-app
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "Ani1Yotam!"
+        - name: MYSQL_DATABASE
+          value: "database"  # Updated database name for simplicity
+        - name: MYSQL_USER
+          value: "stockuser"
+        - name: MYSQL_PASSWORD
+          value: "Ani1Yotam!"
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      - name: init-sql
+        configMap:
+          name: mysql-init-sql

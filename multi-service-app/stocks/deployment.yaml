@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stocks
+  namespace: multi-service-app  # Ensure it's in the correct namespace
+spec:
+  replicas: 2  # Number of pod replicas
+  selector:
+    matchLabels:
+      app: stocks  # Label used by the service to target these pods
+  template:
+    metadata:
+      labels:
+        app: stocks  # Ensure this label is consistent
+    spec:
+      containers:
+        - name: stocks
+          image: stocks  # Or use the full image name if needed
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000  # Exposed port for your application
+          env:
+            - name: DB_HOST
+              value: "database.multi-service-app.svc.cluster.local"  # The DB service hostname
+            - name: DB_PORT
+              value: "3306"  # MySQL default port
+            - name: DB_NAME
+              value: "database"  # Database name
+            - name: DB_USER
+              value: "stockuser"  # Database username
+            - name: DB_PASSWORD
+              value: "Ani1Yotam!"  # Database password
+          resources:
+            requests:
+              memory: "256Mi"  # Minimum memory the pod requires
+              cpu: "500m"      # Minimum CPU the pod requires
+            limits:
+              memory: "512Mi"  # Maximum memory the pod can use
+              cpu: "1000m"     # Maximum CPU the pod can use
+

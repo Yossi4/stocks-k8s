@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stocks
+  namespace: multi-service-app  # This ensures the service is created in the correct namespace
+spec:
+  selector:
+    app: stocks  # This will match the pods created by the deployment.yaml
+  ports:
+    - protocol: TCP
+      port: 8000  # This is the port the service will expose on the cluster
+      targetPort: 8000  # This is the port the application inside the pod is listening on
+  type: ClusterIP  # Exposes the service internally within the cluster
+

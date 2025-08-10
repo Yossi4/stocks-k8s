@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+  namespace: multi-service-app
+spec:
+  capacity:
+    storage: 1Gi  
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce  # MySQL will require ReadWriteOnce access mode
+  persistentVolumeReclaimPolicy: Retain  # Retain the volume after the pod is deleted
+  storageClassName: standard  # This should match the storage class in the cluster
+  hostPath:
+    path: /mnt/data/mysql  
+
